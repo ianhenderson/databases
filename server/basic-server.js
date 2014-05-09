@@ -1,11 +1,8 @@
 /* Import node's http module: */
 var http = require("http");
-var earl = require("url");
-var handler = (require("./request-handler")).handler;
-var send404 = (require("./request-handler")).send404;
-var argle = require("./arglebargle");
-console.log(handler);
-
+var handleRequest = require('./request-handler');
+var urlParser = require('url');
+var utils = require('./utils');
 
 /* Every server needs to listen on a port with a unique number. The
  * standard port for HTTP servers is port 80, but that port is
@@ -18,35 +15,30 @@ var port = 3000;
  * special address that always refers to localhost. */
 var ip = "127.0.0.1";
 
-//  valid options:
-//    /classes/messages
-//    /classes/room1
 
-var routes = {
-  "/classes/messages": handler,
-  "/classes/room1": handler
-};
-//  when we receive a request
-//    parse URL to remove parameters from url
-//    get path from url
-//    if valid
-//      call handler
-//    if not
-//      respond with error code 404
 
 /* We use node's http module to create a server. Note, we called it 'server', but
 we could have called it anything (myServer, blahblah, etc.). The function we pass it (handleRequest)
 will, unsurprisingly, handle all incoming requests. (ps: 'handleRequest' is in the 'request-handler' file).
 Lastly, we tell the server we made to listen on the given port and IP. */
-var server = http.createServer(function( request, response ) {
-  var url = earl.parse( request.url );
-  var fargle = routes[url.pathname];
-  if ( fargle ) {
-    fargle(request, response);
+
+var routes = {
+  '/classes/chatterbox': handleRequest
+  // ...
+}
+
+var server = http.createServer(function(request, response){
+  var url = urlParser.parse(request.url);
+
+  // console.log("Serving request type " + request.method + " for url " + url.pathname);
+  var route = routes[url.pathname];
+  if( route ){
+    route(request, response);
   } else {
-    send404( response );
+    utils.send404(response);
   }
-} );
+
+});
 console.log("Listening on http://" + ip + ":" + port);
 server.listen(port, ip);
 
