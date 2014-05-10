@@ -17,13 +17,14 @@ var app = {
     $.ajax({
       url: this.server,
       type: 'GET',
-      /*data: { order: "-createdAt",
+      /*data: { order: "-createdat",
               limit: 100
             },*/
       contentType: 'application/json',
       success: function (data) {
         callback.call(context, data.results);
         console.log('GET completed');
+        console.log(data);
       },
       error: function (data) {
         console.error('chatterbox: Failed to receive message', data);
@@ -103,7 +104,7 @@ var app = {
     }
 
     // display message
-    var $message = message.roomname + "<div class='chat'><span class='username'>" + user + "</span>: " + text + "<br>" + "<span class='date'>" + new Date(message.createdAt) + "</span></div>";
+    var $message = message.roomname + "<div class='chat'><span class='username'>" + user + "</span>: " + text + "<br>" + "<span class='date'>" + new Date(message.createdat) + "</span></div>";
     $('#chats').append($message);
   },
 

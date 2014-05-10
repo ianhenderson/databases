@@ -27,12 +27,18 @@ var dbConnection = mysql.createConnection({
 /* You already know how to create an http server from the previous
  * assignment; you can re-use most of that code here. */
 
-
-
+// This will replace every "'" with "''" to avoid errors in the SQL insert.
+module.exports.cleanString = function(obj){
+  for (var key in obj){
+    if (typeof obj[key] === 'string'){
+      obj[key] = obj[key].replace(/'/, "''");
+    }
+  }
+};
 
 
 module.exports.readDatabase = function(callback) {
-  var query = "select * from users";
+  var query = "select * from users order by id desc";
   dbConnection.query(query, function(err, rows){
     if (err) {
       console.log("err reading from DB: ", err);
@@ -43,11 +49,12 @@ module.exports.readDatabase = function(callback) {
 };
 
 module.exports.writeDatabase = function(message, callback) {
-  // console.log("Message :", message);
-  var query = "insert into users (username, roomname, text) values ('"
-    + message.username + "','" + message.roomname + "','" + message.text
-    + "')";
-// console.log("Query", query);
+  console.log("Message :", message);
+  module.exports.cleanString(message);
+  var query = 'insert into users (username, roomname, text) values ("'
+    + message.username + '","' + message.roomname + '","' + message.text
+    + '")';
+console.log("Query", query);
   dbConnection.query(query, function(err, rows) {
     if (err) {
       console.log("err writing to DB: ", err);
