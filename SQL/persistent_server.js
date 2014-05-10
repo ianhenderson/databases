@@ -6,12 +6,17 @@ var mysql = require('mysql');
  * database: "chat" specifies that we're using the database called
  * "chat", which we created by running schema.sql.*/
 var dbConnection = mysql.createConnection({
-  user: "nick",
-  password: "pw",
+  // user: "ian&nick",
+  user: "root",
+  password: "",
   database: "chat"
 });
 
-dbConnection.connect();
+// dbConnection.query("insert into users (id, username, roomname, text) values (1, 'root', 'lobby', 'hellooooooo')", function(err, rows) {
+// });
+dbConnection.query('SELECT username FROM users', function(err, rows){
+  console.log(rows);
+});
 /* Now you can make queries to the Mysql database using the
  * dbConnection.query() method.
  * See https://github.com/felixge/node-mysql for more details about

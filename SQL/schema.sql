@@ -1,8 +1,12 @@
-CREATE DATABASE IF NOT EXISTS chat;
+CREATE DATABASE chat;
 
 USE chat;
 
 CREATE TABLE users (
+  id INT NOT NULL,
+  username VARCHAR(100) NOT NULL,
+  roomname VARCHAR(100) NOT NULL,
+  text VARCHAR(500) NOT NULL
 );
 
 /*  Execute this file from the command line by typing:
