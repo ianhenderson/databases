@@ -12,11 +12,13 @@ var dbConnection = mysql.createConnection({
   database: "chat"
 });
 
-// dbConnection.query("insert into users (id, username, roomname, text) values (1, 'root', 'lobby', 'hellooooooo')", function(err, rows) {
+// dbConnection.query("insert into users (username, roomname, text) values ('root', 'lobby', 'hellooooooo')", function(err, rows) {
+//   console.log(rows.insertId);
 // });
-dbConnection.query('SELECT username FROM users', function(err, rows){
-  console.log(rows);
-});
+
+// dbConnection.query('SELECT username FROM users', function(err, rows){
+//   console.log(rows);
+// });
 /* Now you can make queries to the Mysql database using the
  * dbConnection.query() method.
  * See https://github.com/felixge/node-mysql for more details about
@@ -24,3 +26,34 @@ dbConnection.query('SELECT username FROM users', function(err, rows){
 
 /* You already know how to create an http server from the previous
  * assignment; you can re-use most of that code here. */
+
+
+
+
+
+module.exports.readDatabase = function(callback) {
+  var query = "select * from users";
+  dbConnection.query(query, function(err, rows){
+    if (err) {
+      console.log("err reading from DB: ", err);
+    } else {
+      callback(rows);
+    }
+  });
+};
+
+module.exports.writeDatabase = function(message, callback) {
+  // console.log("Message :", message);
+  var query = "insert into users (username, roomname, text) values ('"
+    + message.username + "','" + message.roomname + "','" + message.text
+    + "')";
+// console.log("Query", query);
+  dbConnection.query(query, function(err, rows) {
+    if (err) {
+      console.log("err writing to DB: ", err);
+    } else {
+      callback(rows.insertId);
+    }
+  });
+};
+

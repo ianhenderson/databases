@@ -3,7 +3,7 @@ var app = {
   // username: document.URL.substr(document.URL.indexOf('username=') + 9),
   username: 'IanAndNick',
   server: 'http://127.0.0.1:8080/classes/chatterbox',
-  currentRoom: undefined,
+  currentRoom: 'lobby',
   rooms: [],
   friends: [],
 

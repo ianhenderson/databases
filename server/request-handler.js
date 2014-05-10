@@ -1,25 +1,19 @@
 var utils = require('./utils');
-
-var idCounter = 1;
-var messages = [
-  {
-    username: 'fred',
-    text: 'hello world',
-    roomName: 'lobby',
-    objectId: idCounter
-  }
-];
+var sql = require('../SQL/persistent_server');
 
 var getMessages = function(request, response) {
-  utils.sendResponse(response, {results: messages});
+  // retrieve data from SQL database and assign to messages
+  sql.readDatabase(function(messages) {
+    utils.sendResponse(response, {results: messages});
+  });
 };
 
 var postMessage = function(request, response) {
   utils.collectData(request, function(message){
-    idCounter++;
-    message.objectId = idCounter;
-    messages.unshift(message);
-    utils.sendResponse(response, {objectId: message.objectId});
+    // write data to SQL database
+    sql.writeDatabase(message, function(id) {
+      utils.sendResponse(response, {objectId: id});
+    });
   });
 };
 
