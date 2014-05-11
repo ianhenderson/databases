@@ -6,6 +6,7 @@
   "license": "Copyright 2013, Hack Reactor. All rights reserved.",
   "dependencies": {
     "mysql": "^2.2.0",
+    "sequelize": "^1.7.4",
     "underscore": "^1.6.0"
   },
   "devDependencies": {
