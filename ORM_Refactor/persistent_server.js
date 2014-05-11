@@ -28,7 +28,7 @@ var seqUsers = sequelize.define('seqUsers', {
 // });
 
 module.exports.readDatabase = function(callback) {
-  seqUsers.findAll().success(function(rows){
+  seqUsers.findAll( {order: 'id DESC'} ).success(function(rows){
     callback(rows);
   });
 };

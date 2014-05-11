@@ -111,7 +111,8 @@ var app = {
 
   escapeStr: function(str) {
     // escape harmful characters
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/>/g, '&gt;').replace(/'/g, '&quot;').replace(/!/g, '&#33;').replace(/%/g, '&#37;').replace(/\(/g, '&#40;').replace(/\)/g, '&#41;').replace(/{/g, '&#123;').replace(/}/g, '&#125;').replace(/=/g, '&#61;');
+    // return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/>/g, '&gt;').replace(/'/g, '&quot;').replace(/!/g, '&#33;').replace(/%/g, '&#37;').replace(/\(/g, '&#40;').replace(/\)/g, '&#41;').replace(/{/g, '&#123;').replace(/}/g, '&#125;').replace(/=/g, '&#61;');
+    return str;
   },
 
 
